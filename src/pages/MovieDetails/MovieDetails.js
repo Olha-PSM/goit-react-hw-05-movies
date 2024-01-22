@@ -1,5 +1,5 @@
 import { fetchMovieById } from 'api/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Loader } from 'components/Loader/Loader';
 
 import { useLocation, useParams, Outlet } from 'react-router-dom';
@@ -16,7 +16,7 @@ import {
 
 export default function MovieDetails() {
   const location = useLocation();
-  const backLink = location?.state?.from ?? '/movies';
+  const backLink = useRef(location?.state?.from ?? '/movies');
   const { movieId } = useParams();
   const [movie, setMovies] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,7 @@ export default function MovieDetails() {
   return (
     <>
       {isLoading && <Loader />}
-      <BackLink to={backLink}> Go Back </BackLink>
+      <BackLink to={backLink.current}> Go Back </BackLink>
       <Wrapper>
         <div>
           <ItemImg
